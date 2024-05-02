@@ -1,0 +1,127 @@
+{
+	"layer": "top",
+	"modules-left": ["custom/launcher","cpu","memory","tray", "network"],
+	"modules-center": ["hyprland/workspaces"],
+	"modules-right": ["custom/recording", "custom/weather", "bluetooth", "backlight", "pulseaudio", "clock", "battery","custom/power"],
+	
+	"pulseaudio": {
+		"tooltip": false,
+		"scroll-step": 5,
+		"format": "{icon} {volume}%",
+		"format-muted": "\udb81\udf5f {volume}%",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"format-icons": {
+			"default": ["", "", ""]
+		}
+	},
+
+    "hyprland/workspaces": {
+        "num-tags": 10
+    },
+
+	"network": {
+        "interface": "wlan0",
+		"tooltip": false,
+		"format": "  {ifname}",
+		"format-wifi": "  {essid}",
+	    "on-click": "$HOME/.config/scripts/network-manager/rofi-network-manager.sh",
+        "format-disconnected": "  Disconnected"
+	},
+
+	"backlight": {
+        "device": "intel_backlight",
+		"tooltip": false,
+		"format": " {}%",
+		"interval":1
+	},
+
+	"bluetooth": {
+		"format": " {status}",
+		"format-connected": " {num_connections}",
+		"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+		"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+		"on-click": "$HOME/.config/scripts/rofi-bluetooth"
+	},
+
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon} ",
+        "format-icons": ["", "", "", "", ""]
+    },
+
+	"tray":{
+		
+		"icon-size":18,
+		"spacing": 10
+	},
+
+    "clock": {
+        "format": " {:%H:%M}",
+    	"format-alt": "\uf073 {:%d-%m-%Y}"
+    },
+
+    "cpu": {
+        "interval": 15,
+        "format": "\uf4bc {usage}%",
+        "max-length": 10
+    },
+
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "max-length": 10
+    },
+
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 20,
+        "format-icons": {
+            "spotify": " ",
+            "default": " "
+        },
+        "escape": true,
+        "exec": "$HOME/.config/scripts/mediaplayer.py 2> /dev/null",
+        "on-click": "playerctl play-pause"
+    },
+
+    "custom/launcher":{
+        "format": " ",
+        "on-click": "rofi -i -show drun -modi drun -show-icons",
+        "on-click-right": "killall rofi"
+    },
+
+    "custom/power":{
+        "format": " ",
+        "on-click": "$HOME/.config/scripts/powermenu.sh"
+    },
+
+    "custom/weather" : {
+        "format" : "{}",
+        "interval" : 3600,
+        "exec" : "$HOME/.config/scripts/weather.py",
+        "on-click-right" : "$HOME/.config/scripts/weather.py",
+        "return-type" : "json"
+    },
+    
+    "custom/recording": {
+        "format": "{icon}",
+        "return-type": "json",
+        "tooltip": false,
+        "format-icons": {
+            "Running": "󰑊"
+        },
+        "interval": 1,
+        "exec": "$HOME/.config/scripts/recording_status.sh",		
+        "on-click": "$HOME/.config/scripts/stop_recording.sh"
+    }
+}
